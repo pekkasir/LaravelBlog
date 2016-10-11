@@ -3,9 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Post;
 
 class AdminController extends Controller {
+        
+    public function getLoginForm() {
+        return view('frontend.login');
+    }
+    
+    public function postLogin(Request $request) {
+        $this->validate($request, [
+            'username' => "required",
+            'password' => 'required'
+        ]);
+        
+        if(!Auth::attempt(['username' => $request['username'], 'password' => $request['password']])) {
+            return redirect()->back()->with(['fail' => "Login Failed!"]);
+        }
+        
+        return redirect()->route('admin.index');
+    }
+    
+    public function getLogout() {
+        Auth::logout();
+        return redirect()->route('frontend.index');
+    }
     
     public function getIndex() {
         $posts = Post::orderBy('created_at', 'desc')->paginate(10);
@@ -45,7 +68,7 @@ class AdminController extends Controller {
     public function getEditPost($id) {
         $post = Post::find($id);
         if(!$post) {
-            return redirect()->route('admin.index')->with('fail', "Post Not found");
+            return redirect()->route('admin.index')->with(['fail', "Post Not found"]);
         }
         return view('admin.edit', ['post' => $post]);
     }
@@ -62,6 +85,15 @@ class AdminController extends Controller {
         $post->body = $request['body'];
         $post->update();
         
-        return redirect()->route('admin.index')->with('success', "Post updated successfully!");
+        return redirect()->route('admin.index')->with(['success', "Post Updated Successfully!"]);
+    }
+    
+    public function getDeletePost($id) {
+        $post = Post::find($id);
+        if(!$post) {
+            return redirect()->route('admin.delete')->with('fail', "Post not found");
+        }
+        $post->delete();
+        return redirect()->route('admin.index')->with(['success' => 'Post Deleted Successfully!']);
     }
 }

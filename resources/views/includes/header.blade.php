@@ -12,12 +12,12 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="{{ route('frontend.index') }}">Home</a></li>
+              <li><a href="{{ route('frontend.index') }}">Home</a></li>
               <li><a href="{{ route('contact') }}">Contact</a></li>
               
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="#">Login</a></li>
+              <li><a href="{{ route('login.form') }}">Login</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

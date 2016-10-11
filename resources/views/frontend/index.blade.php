@@ -12,6 +12,9 @@
             @if(Session::has('fail'))
                 <div class="alert alert-danger">{{Session::get('fail')}}</div>
             @endif
+            @if(Session::has('success'))
+                <div class="alert alert-success">{{Session::get('success')}}</div>
+            @endif
             @if(count($posts) == 0)
                 <p>No posts were found!</p>
             @else
@@ -20,10 +23,8 @@
                     <span class="text-muted small">{{$post->author}} | {{$post->created_at->format('d.m.Y h:m')}} </span>
                     <p>{{$post->body}}</p>
                     <a href="{{ route('single', ['id' => $post->id]) }}">Read more</a>
-                @endforeach
-                
+                @endforeach               
             @endif  
-        
     </div>    
    </div>
    <div class="row">
@@ -35,5 +36,5 @@
 
 
 @section('footer')
-    Copyright
+    <div class="text-center">&copy Peki</div>
 @endsection

@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Post;
+use App\Message;
+use Illuminate\Http\Request;
 
 class PostController extends Controller {
     
@@ -31,5 +34,21 @@ class PostController extends Controller {
             $text = substr($text, 0, $len) . "...";
         }
         return $text;
+    }
+    
+    public function postSendMsg(Request $request) {
+       $this->validate($request, [
+            'name' => 'required|min:3',
+            'email' => 'required',
+            'message' => 'required'
+        ]);
+        
+        $msg = new Message();
+        $msg->name = $request['name'];
+        $msg->email = $request['email'];
+        $msg->message = $request['message'];
+        $msg->save();
+        
+        return redirect()->route('frontend.index')->with(['success' => 'Message Send!']);
     }
 }

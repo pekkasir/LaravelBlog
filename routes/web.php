@@ -21,13 +21,29 @@ Route::get('/blog/{id}', [
     'as' => 'single'
 ]);
 
+Route::get('/login', [
+    'uses' => 'AdminController@getloginForm',
+    'as' => 'login.form'
+]);
+
+Route::post('/login', [
+    'uses' => 'AdminController@postLogin',
+    'as' => 'login.admin'
+]);
+
 Route::get('/contact', [
     'uses' => 'PostController@getContact',
     'as' => 'contact'
 ]);
 
+Route::post('/contact/sendMsg', [
+    'uses' => 'PostController@postSendMsg',
+    'as' => 'sendMsg'
+]);
+
 Route::group([
-  'prefix' => '/admin'  
+    'prefix' => '/admin',
+    'middleware' => 'auth'
 ], function() {
     Route::get('/', [
         'uses' => 'AdminController@getIndex',
@@ -52,5 +68,15 @@ Route::group([
     Route::post('/edit', [
         'uses' => "AdminController@postEditPost", 
         'as' => "admin.edit"
+    ]);
+    
+    Route::get('/{id}/delete', [
+        'uses' => 'AdminController@getDeletePost',
+        'as' => 'admin.delete'
+    ]);
+    
+    Route::get('/logout', [
+        'uses' => 'AdminController@getLogout',
+        'as' => 'admin.logout'
     ]);
 });

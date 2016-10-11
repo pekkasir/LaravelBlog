@@ -11,12 +11,12 @@
   </div>
   <div id="navbar" class="navbar-collapse collapse">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="">Posts</a></li>
+      <li><a href="">Posts</a></li>
       <li><a href="{{ route('admin.create') }}">Create Post</a></li>
       <li><a href="">Messages</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li class="active"><a href="./">Logout<span class="sr-only">(current)</span></a></li>
+      <li><a href="{{ route('admin.logout') }}">Logout<span class="sr-only">(current)</span></a></li>
     </ul>
   </div><!--/.nav-collapse -->
 </div><!--/.container-fluid -->

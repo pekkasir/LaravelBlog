@@ -8,7 +8,7 @@ use App\Post;
 class AdminController extends Controller {
     
     public function getIndex() {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(3);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
         foreach($posts as $post) {
             $post->body = $this->shortenText($post->body);
         }
@@ -40,5 +40,28 @@ class AdminController extends Controller {
             $text = substr($text, 0, $len) . "...";
         }
         return $text;
+    }
+    
+    public function getEditPost($id) {
+        $post = Post::find($id);
+        if(!$post) {
+            return redirect()->route('admin.index')->with('fail', "Post Not found");
+        }
+        return view('admin.edit', ['post' => $post]);
+    }
+    
+    public function postEditPost(Request $request) {
+        $this->validate($request, [
+            'title' => 'required|max:50',
+            'author' => 'required|max:20',
+            'body' => 'required'
+        ]);
+        $post = Post::find($request['id']);
+        $post->title = $request['title'];
+        $post->author = $request['author'];
+        $post->body = $request['body'];
+        $post->update();
+        
+        return redirect()->route('admin.index')->with('success', "Post updated successfully!");
     }
 }

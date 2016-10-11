@@ -19,7 +19,7 @@
                 <tr>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->body }}</td>
-                    <td><a href="#">Edit</a></td>
+                    <td><a href="{{ route('admin.edit.form', ['id' => $post->id]) }}">Edit</a></td>
                 </tr>
             @endforeach
         </table>

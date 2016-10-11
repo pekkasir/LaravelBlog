@@ -43,4 +43,14 @@ Route::group([
         'uses' => 'AdminController@postCreate',
         'as' => 'admin.create'
     ]);
+    
+    Route::get('/{id}/edit', [
+        'uses' => 'AdminController@getEditPost',
+        'as' => "admin.edit.form"
+    ]);
+    
+    Route::post('/edit', [
+        'uses' => "AdminController@postEditPost", 
+        'as' => "admin.edit"
+    ]);
 });
